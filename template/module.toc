@@ -1,8 +1,8 @@
 \contentsline {section}{\numberline {一、}问题重述}{4}{section.1}% 
 \contentsline {subsection}{\numberline {1\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}问题背景}{4}{subsection.1.1}% 
 \contentsline {subsection}{\numberline {1\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}问题的提出}{4}{subsection.1.2}% 
-\contentsline {section}{\numberline {二、}问题分析}{4}{section.2}% 
-\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}问题一的分析}{4}{subsection.2.1}% 
+\contentsline {section}{\numberline {二、}问题分析}{5}{section.2}% 
+\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}问题一的分析}{5}{subsection.2.1}% 
 \contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}问题二的分析}{5}{subsection.2.2}% 
 \contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3}问题三的分析}{5}{subsection.2.3}% 
 \contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4}问题四的分析}{5}{subsection.2.4}% 
@@ -25,7 +25,7 @@
 \contentsline {subsection}{\numberline {10\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}模型的评价}{6}{subsection.10.1}% 
 \contentsline {subsubsection}{\numberline {10\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}模型的优点}{6}{subsubsection.10.1.1}% 
 \contentsline {subsubsection}{\numberline {10\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}模型的缺点}{6}{subsubsection.10.1.2}% 
-\contentsline {section}{参考文献}{6}{section*.3}% 
+\contentsline {section}{参考文献}{6}{section*.2}% 
 \contentsline {section}{\numberline {十一、}参考文献}{6}{section.11}% 
 \contentsline {section}{附录 \numberline {A}引用}{7}{附录.a.A}% 
 \contentsline {section}{附录 \numberline {B}排队算法--matlab 源程序}{7}{附录.a.B}% 
@@ -34,5 +34,4 @@
 \contentsline {section}{附录 \numberline {E}图片}{9}{附录.a.E}% 
 \contentsline {section}{附录 \numberline {F}并排图片、表格}{10}{附录.a.F}% 
 \contentsline {section}{附录 \numberline {G}数学公式}{10}{附录.a.G}% 
-\contentsline {subsection}{\numberline {7\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}模型的建立}{10}{subsection.a.G.1}% 
 \contentsfinish 
