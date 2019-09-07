@@ -146,6 +146,10 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 \newcommand*{\kai}{\CJKfamily{kai}}
 \setCJKfamilyfont{song}[AutoFakeBold]{SimSun}
 \newcommand*{\song}{\CJKfamily{song}}
+\setCJKfamilyfont{cu}[AutoFakeBold]{FZCHSJW.TTF}
+\newcommand*{\cu}{\CJKfamily{cu}}
+\setCJKfamilyfont{chu}[AutoFakeBold]{Dengb.ttf}
+\newcommand*{\chu}{\CJKfamily{chu}}
 
 \renewcommand\normalsize{%
 	\@setfontsize\normalsize{12.05}{14.45}%

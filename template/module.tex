@@ -24,6 +24,8 @@
 \usepackage{floatrow}
 \usepackage{cite}
 \usepackage{float}
+\usepackage{ctex}
+\usepackage{bm}
 \xpatchcmd{\thebibliography}{\section*}{\section}{}{}
 %\newcommand{\upcite}[1]{\textsuperscript{\textsuperscript{\cite{#1}}}}
 
@@ -58,10 +60,10 @@
 %\thispagestyle{empty}
 
 %目录
-\tableofcontents
+%\tableofcontents
 %\thispagestyle{empty}
 
-\newpage
+%\newpage
 
 \section{问题重述}
 
@@ -169,12 +171,12 @@
 %附录
 \begin{appendices}
 \section{引用}
-  问题一要求我们根据CMA热带气旋最佳路径数据集和其他相关资料，
-对中国各省（以地级市为单位）进行热带气旋的风险评估。
+  问题一要求我们根据CMA热带气旋最佳路径数据集和{\bfseries\heiti 其他相关资料}，
+对中国各省（以地级市为单位）{\cu 进行}进行热带气旋的风险评估。
 首先统计出1949年-2018年登录我国沿海各省份的热带气旋数量，
-并选取其中登录次数最多的四个省份作为评估对象。
-其次确定评定热带气旋风险等级的八个因素：受热带气旋影响过程中的
-平均降雨量、日最大降雨量、平均风速、日最低气压、热带气旋的登陆频次、持续时间、
+并选取其中登录次数 最多的四个省份作为评估对象。
+{\bfseries 其次确定}评定热带气旋风险等级的八个因素：{\cu 受热带气旋}影响过程中的
+平均降雨量、{\chu 日最大}降雨量、平均风速、日最低气压、热带气旋的登陆频次、持续时间、
 造成的人员伤亡数和直接经济损失。
 接着确定四个热带气旋风险等级分别为：灾情较轻，灾情一般，灾情较重，灾情严重。
 由于对热带气旋风险的评估属于模糊决策，故采用模糊综合评价法求出各省受热带气旋
