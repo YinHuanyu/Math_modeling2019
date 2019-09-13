@@ -5,6 +5,7 @@
 \documentclass[withoutpreface,bwprint]{cumcmthesis} %去掉封面与编号页
 %\documentclass[UTF8]{ctexart} 
 %\setlength\parindent{2em}
+%\usepackage{SIunits}
 \usepackage{url}
 \usepackage{array}
 \usepackage{amsmath} 
@@ -26,6 +27,7 @@
 \usepackage{float}
 \usepackage{ctex}
 \usepackage{bm}
+
 \xpatchcmd{\thebibliography}{\section*}{\section}{}{}
 %\newcommand{\upcite}[1]{\textsuperscript{\textsuperscript{\cite{#1}}}}
 
@@ -98,7 +100,7 @@
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=.6\textwidth]{figure1.png}
+    \includegraphics[width=.8\textwidth]{figure1.png}
     \caption{高压油管工作原理示意图}
     \label{figure1}
 \end{figure}
@@ -142,8 +144,178 @@
 \end{center}
 
 \section{问题一的求解}
+\subsection{高压油管内的压力}
+    因燃油的压力变化量与密度变化量成正比，且比例系数为$\frac{E}{\rho}$，可以得到
+    燃油密度的计算公式
+    \begin{equation}
+        \frac{\triangle P}{\triangle \rho}=\frac{E}{\rho}
+    \label{equ1}
+    \end{equation}
+    其中，$P$为当前压力，$\rho$为燃油密度，$E$为弹性模量，且其与压力的关系如附件3
+    所示。设初始压力$P_0=100~MPa$，此时燃油密度$\rho_0=0.850~mg/mm^3$，
+    则$\triangle P=P-P_0$，$\triangle \rho=\rho-\rho_0$，带入公式(\ref{equ1})
+    中可得
+    \begin{equation}
+        \frac{P-P_0}{\rho-\rho_0}=\frac{E}{\rho}
+    \label{equ2}
+    \end{equation}    
+    整理得
+    \begin{equation}
+        \rho=\frac{\rho_0}{1-\frac{P-P_0}{E}}
+    \label{equ3}
+    \end{equation}    
+   
+    
+    设高压侧燃油密度为$\rho$，流量系数$C=0.85$，小孔面积$A=\pi r_{A}^2$，
+    油泵在入口$A$处的压力$P_1=160~MPa$，小孔$A$两端的压力差$\triangle P=P_1-P$。
+    则单位时间内经小孔$A$流入高压油管的燃油量为
+    \begin{equation}
+        Q=CA\sqrt{\frac{2\triangle P}{\rho}}=CA\sqrt{\frac{2(P_1-P)}{\rho}}
+    \label{equ4}
+    \end{equation}    
+    将$P=160~MPa$带入公式(\ref{equ3})中，求得$\rho=0.8687$。
 
-\subsection{模型的求解}
+    假设高压油管内的气体为理想气体，且体积压缩和膨胀过程中无温度变化，
+    则其压强与体积满足波义尔定律$P_0V_0=PV$。
+    其中，$V_0$为高压油管内腔总体积，$P_0$为油管初始压力
+    $100~MPa$。设$t$时刻进入油管的燃油量为$q$，排出量为$e$，则管内体积变化量
+    \begin{equation}
+        \triangle V=V_{\text{进入}}-V_{\text{喷出}}=\int_0^t q dt-\int_0^t e dt
+    \label{equ5}
+    \end{equation}
+    $t$时刻高压油管内的压力$P=P_0V_0 / V$，气体体积$V=V_0-\triangle V$，
+    代入公式(\ref{equ5})可以求得
+    \begin{equation}
+        P=\frac{P_0V_0}{V_0-\int_0^t q dt+\int_0^t e dt}
+    \label{equ6}
+    \end{equation}
+
+\subsection{单目标优化模型}
+    因高压油管内腔长$L_{\text{油管}}=500~mm$，内直径$d_{\text{油管}}=10~mm$，
+    入口$A$的直径$d_A=1.4~mm$，则
+    $V_0=\pi (d_{\text{油管}}/2)^2\cdot L_{\text{油管}}=12500\pi ~mm^3$，
+    $A=\pi (d_A/2)^2=0.49\pi ~mm^2$。
+    已知小孔A通过单向阀开关控制供油时间，且每次打开后就要关闭$10~ms$，设每次开启
+    时间为$t_{\text{开}}$，则单向阀工作周期$T=(t_{\text{开}} + 10)~ms$；
+    喷油器每秒工作10次，每次喷油$2.4~ms$且喷油速率如图\ref{figure2}所示。
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=.7\textwidth]{E_rate.png}
+        \caption{喷油速率示意图}
+        \label{figure2}
+    \end{figure} \\
+    则$t$时刻喷油量
+    \begin{eqnarray}
+    e=
+    \begin{cases}
+        100t \quad \quad \quad & 0 \leq t \leq 0.2 \\
+        20   & 0.2 < t \leq 2.2 \\
+        240-100t  & 2.2 < t \leq 2.4 \\
+        0 & 2.4 < t <100
+    \end{cases}
+    \label{equ7}
+    \end{eqnarray}
+
+    由公式(\ref{equ4})可知，进入油管的燃油量$q$为$P$的函数({\color{red}这里有点问题})，
+    将$q$和$e$代入公式(\ref{equ6})中进行求解即可得到油管内压力$P$与时间$t$的方程。
+    因该方程过于复杂无法直接求解，故采用如下方法计算：
+    
+    \textbf{Step1}:将时间段$[0,t]$分割为若干个长度为$\triangle t=0.01~ms$的小区间，
+    第$i$个区间内燃油的进入和喷出量分别记为$\triangle q_i$和 $\triangle e_i$
+    $(i=1,2,\cdots,n)$。
+
+    \textbf{Step2}:在第$i$个区间上以起始点的$q_i$与$e_i$的值近似代替连续变化的值，即
+    \begin{eqnarray}
+        \begin{cases}
+            \triangle q_i \approx q_i\triangle t\\
+            \triangle e_i \approx e_i\triangle t
+        \end{cases}
+        %,\quad \quad  i=1,2,\cdots,n \quad \text{且} \quad
+        %n=\lfloor{\frac{t}{\triangle t}}\rfloor
+    \label{equ8}
+    \end{eqnarray}
+    其中$i=1,2,\cdots,n$且$n=\lfloor{\frac{t}{\triangle t}}\rfloor$。
+    
+    \textbf{Step3}:求$n$个时间段进入和喷出燃油量的和，即
+    \begin{eqnarray}
+        \begin{cases}
+            V_{\text{进入}}=\int_0^t q dt \approx
+             \sum\limits_{i=1}^n \triangle q_i \\
+            %=\sum\limits_{i=1}^n q_i\triangle t \\
+            V_{\text{喷出}}=\int_0^t e dt \approx
+             \sum\limits_{i=1}^n \triangle e_i \\
+            %=\sum\limits_{i=1}^n e_i\triangle t
+        \end{cases}
+    \label{equ9}
+    \end{eqnarray}
+
+    \textbf{Step4}:记第$i$个区间起始时刻压强为$P_{i-1}$，结束时刻压强为$P_i$，则
+    \begin{eqnarray}
+        q_i=
+        \begin{cases}
+        CA\sqrt{\frac{2(P_1-P_{i-1})}{\rho}} \quad \quad  \quad
+        & i-\lfloor{\frac{t}{T}}\rfloor \cdot T \leq t_{\text{开}}\\
+        0 & t_{\text{开}} < i-\lfloor{\frac{t}{T}}\rfloor \cdot T < T
+        \end{cases}
+    \label{equ10}
+    \end{eqnarray}
+
+    \textbf{Step5}:将公式(\ref{equ7}-\ref{equ10})依次代入公式(\ref{equ6})中
+    可得关于压力的递推关系式
+    \begin{equation}
+        P_i=\frac{P_0V_0}
+        {V_0-\sum\limits_{i=1}^n CA\sqrt{\frac{2(P_1-P_{i-1})}{\rho}}\cdot\triangle t +\sum\limits_{i=1}^n e_i\triangle t}
+    \label{equ11}
+    \end{equation}
+    通过公式(\ref{equ11})不断迭代即可得到$[0,t]$时间段内各区间对应的压强。
+
+    本题首先要求将高压油管内的压力尽可能稳定在$100~MPa$左右，令
+    \begin{equation}
+        F(t_{\text{开}})=\sum\limits_{i=1}^n (P_i-100)^2
+    \label{equ12}
+    \end{equation}
+    其中，
+    $n=\lfloor{\frac{t}{\triangle t}}\rfloor$，$t=1000~ms$。
+    故单向阀每次开启时长的最优设置方案为各时刻压力与$100~MPa$距离的平方和
+    $F(t_{\text{开}})$最小时。由此建立单目标优化模型，目标函数为
+    \begin{equation}
+       min \quad F(t_{\text{开}})
+    \label{equ13}
+    \end{equation}
+
+    为求解上述问题的近似全局最优解，采用模拟退火算法，具体步骤如下：
+
+    \textbf{Step1}:初始化目标函数值$F(t_{\text{开}})=0$，设置退火起点
+    $t_{\text{开}}=0$，降温系数$\alpha=0.999$，终止温度$T^n=10^{-30}$，
+    当前时间为$T_1$。
+
+    \textbf{Step2}:对当前开启时间$t_{\text{开}}$进行变换得到新解$t_{\text{开}}'$，并带入目标
+    函数中求出函数值。
+
+    \textbf{Step3}:计算增量$\triangle F=F(t_{\text{开}}')-t_{\text{开}}$。
+    
+    \textbf{Step4}:若$\triangle F<0$，则将$t_{\text{开}}'$作为新的当前解，
+    否则以概率$exp(-\triangle F/T_1)$接受$t_{\text{开}}'$作为当前解。
+
+    \textbf{Step5}:当$T_1 \leq ^n$时，退火算法结束，当前解即近似全局最优解；
+    否则返回Step2。
+
+\subsection{油管压力稳定在$100MPa$的控制方案}
+    用MATLAB求解5.2中的单目标优化模型，得到单向阀每次开启时间的最优解为
+    $t_{\text{开}}=0.314~ms$，$F(0.314~ms)=173.27$。
+    代入公式(\ref{equ11})后作压力随时间变化的图像。 
+    \begin{figure}[!h]
+    \centering
+    \includegraphics[width=.95\textwidth]{100Mpa.jpg}
+    \caption{稳定在$100~MPa$时压力随时间变化示意图}
+    \label{figure3}
+    \end{figure}
+
+    由图\ref{figure3}可以看出$1s$内高压油管的压力在$100~MPa$上下小幅度波动，
+    且100000个区间的平均偏离量仅为$1.7327e-3$，说明压力较为稳定。
+
+\subsection{油管压力增加到在$150MP$a的调整方法}
+
 
 \section{问题二的求解}
 
@@ -158,11 +330,16 @@
 
 \section{灵敏度检验}
 
-\section{模型的评价和推广}
+\section{模型的评价}
 \subsection{模型的评价}
 \subsubsection{模型的优点}
 
 \subsubsection{模型的缺点}
+
+\section{模型的改进}
+1、传感器
+
+2、流量系数
    
 
 %参考文献
@@ -304,7 +481,7 @@
 
 \section{并排图片、表格}
 \begin{figure}[H]
-    \begin{floatrow} \CenterFloatBoxes
+\begin{floatrow} \CenterFloatBoxes
     \ffigbox{\caption{2}}{\includegraphics[width=.3\textwidth]{2.jpg}}
     \killfloatstyle
     \ttabbox{\caption{3}}{
@@ -313,6 +490,7 @@
         1 & 2 & 3 \\ \hline
     \end{tabular}}
 \end{floatrow}
+\caption{3}
 \end{figure}
 
 \begin{figure}[H]
