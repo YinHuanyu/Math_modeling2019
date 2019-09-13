@@ -1,8 +1,8 @@
 % !Mode:: "TeX:UTF-8"
 %!TEX program  = xelatex
 
-\documentclass{cumcmthesis}
-%\documentclass[withoutpreface,bwprint]{cumcmthesis} %去掉封面与编号页
+%\documentclass{cumcmthesis}
+\documentclass[withoutpreface,bwprint]{cumcmthesis} %去掉封面与编号页
 %\documentclass[UTF8]{ctexart} 
 %\setlength\parindent{2em}
 \usepackage{url}
@@ -29,7 +29,7 @@
 \xpatchcmd{\thebibliography}{\section*}{\section}{}{}
 %\newcommand{\upcite}[1]{\textsuperscript{\textsuperscript{\cite{#1}}}}
 
-\title{装箱问题}
+\title{高压油管的压力控制}
 \tihao{A}
 \baominghao{201922002029}
 \schoolname{重庆邮电大学}
@@ -53,7 +53,6 @@
         
         针对问题三，
         
-        针对问题四，
         
 \keywords{关键词}
 \end{abstract}
@@ -66,20 +65,43 @@
 %\newpage
 
 \section{问题重述}
-
 \subsection{问题背景}
-              
+        燃油发动机使燃料燃烧并产生动力，是驱动汽车各部分正常工作或行驶的保障。                      
+    而燃油进入和喷出高压油管是燃油发动机工作的基础，其进入和喷出的过程会导致
+    高压油管内压力的变化，进而导致喷嘴喷油量的偏差，从而影响发动机的工作效率。
+    因此，通过理论分析和计算，给出合理的高压油管控制方案对发动机高效工作有着
+    积极影响。
 
 \subsection{问题的提出}
-    
-        根据……，
-    建立数学模型回答以下问题：
-\begin{itemize}
-    \item[1)]
-    \item[2)]
-    \item[3)]
-    \item[4)]
-\end{itemize}
+        燃油经高压油泵进入油管，再由喷口喷出。
+    %燃油压力变化量与密度变化量之比为$\frac{E}{\rho}$，其中$\rho$为燃油密度，$E$为杨氏模量，其与压力的关系
+    %见附件3。
+    根据高压油管工作原理（图\ref{figure1}），
+    回答以下问题：
+
+（1）已知高压油管尺寸、初始压力及喷油嘴工作次数和工作时间，设高压油泵在入口A
+    处提供160MPa稳定压力，为使管内压力尽可能稳定在100MPa不变，应如何设置
+    单向阀每次开启时长？若经过2s、5s和10s的调整后，管内压力从100MPa增加到
+    150MPa并稳定，又应如何调整开启时长？
+    %设高压油管内腔长500mm，直径10mm，供油入口处有一直径1.4mm的小孔，且由
+    %单向阀控制供油时间长短，每次打开后都需关闭10ms才能再一次开启。喷油嘴每
+    %秒工作10次，每次喷油2.4ms。油管内
+    %初始压力为100MPa，若
+
+（2）若高压油管入口处燃油来自油泵的柱塞腔出口，柱塞运动由凸轮驱动，喷油由油嘴
+    的针阀控制。已知各部分的工作原理和相关参数，在问题1喷油器工作次数、高压
+    油管尺寸和初始压力下，确定凸轮工作的角速度，使得油管内压力尽可能稳定在
+    100MPa。
+
+（3）在问题2的基础上增加一个相同的喷油嘴，应如何调整喷油和供油策略？若安装
+    单向减压阀来更好地控制油管压力，请给出油泵和减压阀的控制方案。
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=.6\textwidth]{figure1.png}
+    \caption{高压油管工作原理示意图}
+    \label{figure1}
+\end{figure}
 
 \section{问题分析}
 \subsection{问题一的分析}   
@@ -90,12 +112,12 @@
 
 \subsection{问题三的分析}
         
-
-\subsection{问题四的分析}
      
 
 \section{基本假设}
-    
+（1）假设高压油管与油泵内的气体均为理想气体，且压缩、膨胀过程中无温度变化。
+
+（2）假设供给和喷出燃油的过程中油管与油泵内气体与外界气体均无交换。    
 
 \section{符号说明}
 \begin{center}
@@ -121,31 +143,17 @@
 
 \section{问题一的求解}
 
-\subsection{问题一的分析}
-
 \subsection{模型的求解}
 
 \section{问题二的求解}
-
-\subsection{问题二的分析}
 
 \subsection{模型的建立与求解}
 
 
 \section{问题三的求解}
 
-\subsection{问题三的分析}
-
-
 \subsection{模型的建立与求解}
 
-
-\section{问题四的求解}
-
-\subsection{问题四的分析}
-        
-
-\subsection{模型的建立与求解}
 
 
 \section{灵敏度检验}
