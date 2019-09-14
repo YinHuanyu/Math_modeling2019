@@ -81,14 +81,10 @@
     根据高压油管工作原理（图\ref{figure1}），
     回答以下问题：
 
-（1）已知高压油管尺寸、初始压力及喷油嘴工作次数和工作时间，设高压油泵在入口A
+（1）已知高压油管尺寸、初始压力及喷油嘴工作次数和工作时间，高压油泵在入口A
     处提供160MPa稳定压力，为使管内压力尽可能稳定在100MPa不变，应如何设置
     单向阀每次开启时长？若经过2s、5s和10s的调整后，管内压力从100MPa增加到
     150MPa并稳定，又应如何调整开启时长？
-    %设高压油管内腔长500mm，直径10mm，供油入口处有一直径1.4mm的小孔，且由
-    %单向阀控制供油时间长短，每次打开后都需关闭10ms才能再一次开启。喷油嘴每
-    %秒工作10次，每次喷油2.4ms。油管内
-    %初始压力为100MPa，若
 
 （2）若高压油管入口处燃油来自油泵的柱塞腔出口，柱塞运动由凸轮驱动，喷油由油嘴
     的针阀控制。已知各部分的工作原理和相关参数，在问题1喷油器工作次数、高压
@@ -107,7 +103,21 @@
 
 \section{问题分析}
 \subsection{问题一的分析}   
-
+    问题一要求我们在已知高压油管尺寸、初始压力，喷油嘴工作次数和工作时间，
+    高压油泵在入口A处提供160MPa稳定压力的情况下，通过设置单向阀每次开启时长
+    使管内压力尽可能稳定在100MPa不变；再调整开启时长，使管内压力经过
+    2s、5s和10s后从100MPa增加到150MPa并稳定。
+    首先根据燃油压力、密度与弹性模量之间的关系求出160MPa下的燃油密度。
+    其次结合高压油管流量的计算公式与波义尔定律，得出高压油管内压力$P$与燃油进入量
+    $q$、排出量$e$之间的函数关系({\color{red}这里要不要说方程复杂无法求解所以离散})。
+    为求得管内压力尽可能稳定在100MPa时单向阀开启时间$t_{\text{开}}$的最优取值，
+    以$\triangle t=0.01~ms$为时间间隔，1$s$内各时刻油管压力与100MPa的残差平方和
+    $SSR$为目标函数建立单目标优化模型，并用模拟退火算法求出全局最优解。
+    为使管内压力经过2s、5s和10s后从100MPa增加到150MPa并稳定，将单向阀开启时长
+    分增压过程和稳压过程两个部分分别调整。增压时以增压结束点油管压力最接近150MPa
+    为目标函数，稳压时以增压结束到20$s$中各时刻油管压力与150MPa的残差平方和$SSR$
+    为目标函数，分别建立单目标优化模型。由模拟退火算法求出的解即单向阀开启
+    时长的最优取值。
 
 \subsection{问题二的分析}
         
@@ -126,19 +136,20 @@
 \begin{tabular}{ccc}
 %\caption[table]{符号说明}
 \toprule[2pt]
-\makebox[0.2\textwidth][c]{符号}&\makebox[0.5\textwidth][c]{意义}&\makebox[0.2\textwidth][c]{单位} \\
+\makebox[0.15\textwidth][c]{符号}&\makebox[0.35\textwidth][c]{意义} \\
 \midrule[1pt]
- $R_i$  &  第$i$个雷达  & / \\ 
- $r_i$  &  飞行物与第$i$个雷达之间距离的观测值  &  米  \\ 
- $(x_i,y_i,z_i)$  &  第$i$个雷达的坐标  &  米  \\ %\hline
- $S(x,y,z)$  &  飞行物坐标  &  米  \\% \hline
- $N$  &  飞行物乙的$x$轴坐标  &  公里 \\ %\hline
- $M$  &  安全区的$y$轴坐标  &  公里  \\
- $h$  &  飞行物乙的$z$轴坐标  &  公里  \\
- $V$  &  敌机的飞行速度  &  马赫数  \\
- $U$  &  I型追踪导弹的速度  &  马赫数  \\
- $V_{\text{声}}$  &  测量地的音速  &  米/秒  \\
- $n$  &  雷达的个数  &  个  \\
+ $E$     &  弹性模量    \\ 
+ $\rho$  &  燃油密度    \\ 
+ $P$     &  燃油压力    \\ %\hline
+ $C$     &  流量系数    \\% \hline
+ $A$     &  小孔面积   \\ %\hline
+ $V$     &  体积    \\
+ $q$     &  燃油进入量    \\
+ $e$     &  燃油排出量    \\
+ $t$     &  时刻    \\
+ $t_{\text{开}}$  &  单向阀开启时间  \\
+ $T$     &  单向阀工作周期    \\
+ $d$     &  孔洞直径    \\
 \bottomrule[1.5pt]
 \end{tabular}
 \end{center}
@@ -224,11 +235,12 @@
     第$i$个区间内燃油的进入和喷出量分别记为$\triangle q_i$和 $\triangle e_i$
     $(i=1,2,\cdots,n)$。
 
-    \textbf{Step2}:在第$i$个区间上以起始点的$q_i$与$e_i$的值近似代替连续变化的值，即
+    \textbf{Step2}:在第$i$个区间上以起始点的$q_i$的值近似代替连续变化的$q$。
+    因喷油量$e$为线性函数，因此用每个区间喷油量的平均值的$\overline{e_i}$代替连续变化的$e$，即
     \begin{eqnarray}
         \begin{cases}
             \triangle q_i \approx q_i\triangle t\\
-            \triangle e_i \approx e_i\triangle t
+            \triangle e_i = \overline{e_i}\triangle t
         \end{cases}
         %,\quad \quad  i=1,2,\cdots,n \quad \text{且} \quad
         %n=\lfloor{\frac{t}{\triangle t}}\rfloor
@@ -264,45 +276,45 @@
     可得关于压力的递推关系式
     \begin{equation}
         P_i=\frac{P_0V_0}
-        {V_0-\sum\limits_{i=1}^n CA\sqrt{\frac{2(P_1-P_{i-1})}{\rho}}\cdot\triangle t +\sum\limits_{i=1}^n e_i\triangle t}
+        {V_0-\sum\limits_{i=1}^n CA\sqrt{\frac{2(P_1-P_{i-1})}{\rho}}\cdot\triangle t +\sum\limits_{i=1}^n \overline{e_i}\triangle t}
     \label{equ11}
     \end{equation}
     通过公式(\ref{equ11})不断迭代即可得到$[0,t]$时间段内各区间对应的压强。
 
     本题首先要求将高压油管内的压力尽可能稳定在$100~MPa$左右，令
     \begin{equation}
-        F(t_{\text{开}})=\sum\limits_{i=1}^n (P_i-100)^2
+        SSR=\sum\limits_{i=1}^n (P_i-100)^2
     \label{equ12}
     \end{equation}
     其中，
     $n=\lfloor{\frac{t}{\triangle t}}\rfloor$，$t=1000~ms$。
-    故单向阀每次开启时长的最优设置方案为各时刻压力与$100~MPa$距离的平方和
-    $F(t_{\text{开}})$最小时。由此建立单目标优化模型，目标函数为
+    故单向阀每次开启时长的最优设置方案为各时刻压力与$100~MPa$的残差平方和
+    $SSR$最小时。由此建立单目标优化模型，目标函数为
     \begin{equation}
-       min \quad F(t_{\text{开}})
+       min \quad SSR
     \label{equ13}
     \end{equation}
 
     为求解上述问题的近似全局最优解，采用模拟退火算法，具体步骤如下：
 
-    \textbf{Step1}:初始化目标函数值$F(t_{\text{开}})=0$，设置退火起点
+    \textbf{Step1}:初始化目标函数值$SSR$，设置退火起点
     $t_{\text{开}}=0$，降温系数$\alpha=0.999$，终止温度$T^n=10^{-30}$，
     当前时间为$T_1$。
 
     \textbf{Step2}:对当前开启时间$t_{\text{开}}$进行变换得到新解$t_{\text{开}}'$，并带入目标
     函数中求出函数值。
 
-    \textbf{Step3}:计算增量$\triangle F=F(t_{\text{开}}')-t_{\text{开}}$。
+    \textbf{Step3}:计算增量$\triangle SSR=SSR(t_{\text{开}}')-SSR_{\text{开}}$。
     
-    \textbf{Step4}:若$\triangle F<0$，则将$t_{\text{开}}'$作为新的当前解，
-    否则以概率$exp(-\triangle F/T_1)$接受$t_{\text{开}}'$作为当前解。
+    \textbf{Step4}:若$\triangle SSR<0$，则将$t_{\text{开}}'$作为新的当前解，
+    否则以概率$exp(-\triangle SSR/T_1)$接受$t_{\text{开}}'$作为当前解。
 
     \textbf{Step5}:当$T_1 \leq ^n$时，退火算法结束，当前解即近似全局最优解；
     否则返回Step2。
 
 \subsection{油管压力稳定在$100MPa$的控制方案}
     用MATLAB求解5.2中的单目标优化模型，得到单向阀每次开启时间的最优解为
-    $t_{\text{开}}=0.314~ms$，$F(0.314~ms)=173.27$。
+    $t_{\text{开}}=0.314~ms$，$SSR(0.314~ms)=173.27$。
     代入公式(\ref{equ11})后作压力随时间变化的图像。 
     \begin{figure}[!h]
     \centering
@@ -315,11 +327,221 @@
     且100000个区间的平均偏离量仅为$1.7327e-3$，说明压力较为稳定。
 
 \subsection{油管压力增加到在$150MP$a的调整方法}
+    针对题目中要求的经过$2~s$调整后管内压力增加到$150~MPa$并保持稳定，
+    采用与5.2中相似的计算方法，并将单向阀开启时长的调整分为两个部分。首先是增压
+    过程，显然$t_{\text{开}}$越大，压力增加得越快。$2~s$时刻压力达到$150~MPa$
+    ，即$|P_{2s}-150~MPa|$最小。令$\triangle P=|P_{2s}-150~MPa|$，则调整单目标
+    优化模型的目标函数为
+    \begin{equation}
+        min \quad \triangle P
+     \label{equ14}
+     \end{equation}
+    通过模拟退火算法求得近似全局最优解为$t_{\text{开}}=15.046~ms$，
+    代入公式(\ref{equ11})中经迭代求出$P_{2s}=149.3~MPa$。增压阶段结束后进入
+    稳压阶段，压力尽可能维持在$150~MPa$，即$t$时间内各时刻压力与$150~MPa$
+    的残差平方和$SSR$。考虑将$20~s$内的最优解作为最佳开启时间，调整优化模型
+    目标函数为
+    \begin{equation}
+        min \quad \sum\limits_{i=2000}^{20000} (P_i-150)^2
+    \label{equ14}
+    \end{equation}
+    经计算，稳压阶段单向阀每次开启的时长为$t_{\text{开}}=0.753$，求得的目标函数值
+    为$9478.16$。作$20~s$内管内压力随时间变化的图像，由局部放大图可知，管内压力
+    增大到$150~MPa$后，$t_{\text{开}}$经调整可以使得压力在$150~MPa$附近小幅度波动，
+    且波动量不超过$0.2~MPa$。因此可以得出单向阀开启时长的调整方案较为合理的结论。
+    \begin{figure}[!h]
+    \centering
+    \includegraphics[width=.8\textwidth]{2s.jpg}
+    \caption{增压过程为$2~s$的压力变化示意图}
+    \label{figure4}
+    \end{figure}
 
+    \begin{figure}[!h]
+    \centering
+    \includegraphics[width=.85\textwidth]{2s_m.jpg}
+    \caption{增压过程为$2~s$的压力变化局部放大图}
+    \label{figure5}
+    \end{figure}
+
+    \newpage
+
+    用相同的方法求出增压过程为$5~s$和$10~s$时单向阀开启时长调整方案列于
+    表\ref{table1}中,并作$20~s$内管内压力随时间变化的图像。
+    \begin{longtable}[c]{p{0.2\textwidth}<{\centering}p{0.2\textwidth}<{\centering}p{0.2\textwidth}<{\centering}
+    p{0.2\textwidth}<{\centering}p{0.2\textwidth}<{\centering}}
+        \caption{单向阀开启时长调整方案} 
+        \label{table1}\\
+        \toprule[2pt]
+        增压时长$t_{\text{增}}$ & 增压过程 $t_{\text{开}}$ 
+        & 压力 $P_{t_{\text{增}}}$ & 稳压过程 $t_{\text{开}}$ & 目标函数$SSR$ \\ 
+        \midrule[1pt]
+        $2~s$  & $15.046~ms$ & 149.3$MPa$ & $0.753~ms$ & 9478.16 \\
+        $5~s$  & $3.707~ms$  & 150$MPa$   & $0.754~ms$ & 8780.90 \\
+        $10~s$ & $1.849~ms$  & 150.1$MPa$ & $0.754~ms$ & 5098.11 \\
+    \bottomrule[1.5pt]
+    \end{longtable}
+
+    \begin{figure}[H]
+        \begin{floatrow}
+        \ffigbox{\caption{增压$5~s$的压力变化示意图}}{\includegraphics[width=.49\textwidth]{5s.jpg}}
+        \ffigbox{\caption{增压$10~s$的压力变化示意图}}{\includegraphics[width=.49\textwidth]{10s.jpg}}
+    \end{floatrow}
+    \end{figure}
+
+    %\newpage
+
+    \begin{figure}[!h]
+    \centering
+    \includegraphics[width=.85\textwidth]{5s_m.jpg}
+    \caption{增压过程为$5~s$的压力变化局部放大图}
+    \label{figure7}
+    \end{figure}
+ 
+    \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=.85\textwidth]{10s_m.jpg}
+    \caption{增压过程为$10~s$的压力变化局部放大图}
+    \label{figure8}
+    \end{figure}    
 
 \section{问题二的求解}
+\subsection{柱塞运动方程}
+    将附件1中凸轮极角与对应的极径输入MATLAB中，拟合曲线即可得到凸轮的外形
+    (图\ref{figure9})及其极径与角度的关系（图\ref{figure10})。{\color{red}图}
+    \begin{figure}[!h]
+        \centering
+        \includegraphics[width=.6\textwidth]{1949-2018_province_occurence.png}
+        \caption{凸轮边缘轮廓}
+        \label{figure9}
+    \end{figure}
+    \begin{figure}[!h]
+        \centering
+        \includegraphics[width=.6\textwidth]{1949-2018_province_occurence.png}
+        \caption{凸轮极径与角度的关系曲线}
+        \label{figure10}
+    \end{figure}
+    \\
+    拟合后曲线的方程为$L(\theta)={\color{red}equation}$，
+    其中$\theta$为旋转角度，$L$为角度$\theta$所对应的的极径。
+    对$L(\theta)$进行{\color{red}什么检验，不会写。}
+    经检验，曲线对离散点的拟合度较好，
+    因此建立柱塞上升距离与角度的函数关系
+    \begin{equation}
+        d=L(\theta)-L_{min}={\color{red}equation}
+    \label{equ16}
+    \end{equation}
+    其中，$L_{min}$为柱塞运动到下止点时凸轮旋转角度所对应的的极径，
+    $d$为柱塞相对于下止点的位移。设$\omega$为凸轮旋转角速度，
+    $T=\frac{2\pi}{\omega}$为旋转周期，
+    $t_r=t-\lfloor{\frac{t}{T}*T}\rfloor$为凸轮在某个旋转周期内的
+    旋转时间，则$\theta=\omega t_r$。代入公式(\ref{equ16})可得到
+    柱塞上升距离与旋转时间$t_r$的关系式
+    \begin{equation}
+        d(t_r)=L(t_r)-L_{min}={\color{red}equation}
+    \label{equ16}
+    \end{equation}
+    记柱塞运动速度为$u$，则
+    \begin{equation}
+        u(t_r)=d'(t_r)={\color{red}equation}
+    \label{equ17}
+    \end{equation}   
 
-\subsection{模型的建立与求解}
+\subsection{高压油泵中燃油的压强}
+    {\color{red}ART（代数迭代法）}
+    考虑到柱塞运动时柱塞腔内体积变化
+
+压缩系数
+$$
+    \kappa = -\frac{dV/V_0}{dP}=-\frac{1}{V_0}\frac{dV}{dP}
+$$
+压缩系数的倒数为体积弾性系数$E$
+$$
+    E=\frac{1}{\kappa}=-V_0\frac{dP}{dV}
+$$
+$$
+    E=kP+b
+$$
+$$
+    kP+b=-V_0\frac{dP}{dV}
+$$
+即
+$$
+-\frac{1}{V_0}dV=\frac{1}{kP+b}dP
+$$
+两边求积分可得
+$$
+\int_{V_0}^V-\frac{1}{V_0}dV=\int_{P_0}^P\frac{1}{kP+b}dP
+$$
+即
+$$
+    -\frac{1}{V_0}(V-V_0)=\frac{1}{k}ln(kP+b)-\frac{1}{k}ln(kP_0+b)
+$$
+$$
+    kP+b=(kP_0+b)e^{-\frac{k}{V_0}(V-V_0)}
+$$
+所以
+$$
+    P=\frac{(k\rho_0+b)e^{-\frac{k}{V_0}(V-V_0)}-b}{k}
+$$
+另一种化简方式
+$$
+    V=V_0\{1-\frac{1}{k}[ln(kP+b)-ln(kP_0+b)\}
+$$
+腔内体积
+$$
+    V=V_0-S \cdot d(t)
+$$
+$$
+    S=\pi r_{\text{腔}}^2
+$$
+流量系数
+$$
+    Q=CA\sqrt{\frac{2 \triangle P}{\rho}}
+$$
+$$
+    \triangle P=P-P_{\text{油管}}
+$$
+密度表达式
+$$
+    \frac{dP}{d\rho}=\frac{E}{\rho}
+$$
+代入$E=kP+b$，整理后求定积分得
+$$
+    \int_{P_0}^P\frac{dP}{kP+b}=\int_{\rho_0}^\rho\frac{d\rho}{\rho}
+$$
+即
+$$
+    ln\rho-ln\rho_0=\frac{1}{k}[ln(kP+b)-ln(kP_0+b)]
+$$
+经整理得
+$$
+    \rho=\rho_0\cdot(\frac{kP+b}{kP_0+b})^{\frac{1}{k}}
+$$
+
+\subsection{喷油嘴的喷油速率}
+$$
+    Q_2=CA\sqrt{\frac{2 \triangle P}{\rho}}
+$$
+\begin{eqnarray}
+    A=
+    \begin{cases}
+        S \quad \quad & t<t_0 \\
+        S_1    & t \geq t_0
+    \end{cases}
+\end{eqnarray}
+$$
+    S=\pi(r^2-r_0^2)
+$$
+$$
+    r=h\cdot\tan 9^\circ + r_0
+$$
+$$
+    S_1=(0.7)^2\pi
+$$
+
+
+
+\subsection{凸轮角速度与高压油管内压力的关系}
 
 
 \section{问题三的求解}
@@ -338,8 +560,20 @@
 
 \section{模型的改进}
 1、传感器
+    计算该开启时间下$10~s$内各时刻的油管压力并作压力随时间变化的图像，
+    可以看出管内压力总体呈上升趋势，但偏离$100~MPa$的最大值仅为$100.7~MPa$，
 
-2、流量系数
+    \begin{figure}[!h]
+    \centering
+    \includegraphics[width=.95\textwidth]{100Mpa10secs.jpg}
+    \caption{10s内压力随时间变化示意图}
+    \label{figure3.5}
+    \end{figure}
+
+
+2、流量系数$C$的取值
+
+3、修正高压油管内的密度
    
 
 %参考文献
