@@ -187,7 +187,7 @@
     将$P=160~MPa$带入公式(\ref{equ3})中，求得$\rho=0.8687$。
 
     假设高压油管内的气体为理想气体，且体积压缩和膨胀过程中无温度变化，
-    则其压强与体积满足波义尔定律$P_0V_0=PV$。
+    则其压力与体积满足波义尔定律$P_0V_0=PV$。
     其中，$V_0$为高压油管内腔总体积，$P_0$为油管初始压力
     $100~MPa$。设$t$时刻进入油管的燃油量为$q$，排出量为$e$，则管内体积变化量
     \begin{equation}
@@ -261,7 +261,7 @@
     \label{equ9}
     \end{eqnarray}
 
-    \textbf{Step4}:记第$i$个区间起始时刻压强为$P_{i-1}$，结束时刻压强为$P_i$，则
+    \textbf{Step4}:记第$i$个区间起始时刻压力为$P_{i-1}$，结束时刻压力为$P_i$，则
     \begin{eqnarray}
         q_i=
         \begin{cases}
@@ -279,7 +279,7 @@
         {V_0-\sum\limits_{i=1}^n CA\sqrt{\frac{2(P_1-P_{i-1})}{\rho}}\cdot\triangle t +\sum\limits_{i=1}^n \overline{e_i}\triangle t}
     \label{equ11}
     \end{equation}
-    通过公式(\ref{equ11})不断迭代即可得到$[0,t]$时间段内各区间对应的压强。
+    通过公式(\ref{equ11})不断迭代即可得到$[0,t]$时间段内各区间对应的压力。
 
     本题首先要求将高压油管内的压力尽可能稳定在$100~MPa$左右，令
     \begin{equation}
@@ -394,38 +394,37 @@
     \centering
     \includegraphics[width=.85\textwidth]{5s_m.jpg}
     \caption{增压过程为$5~s$的压力变化局部放大图}
-    \label{figure7}
+    \label{figure8}
     \end{figure}
  
     \begin{figure}[htbp]
     \centering
     \includegraphics[width=.85\textwidth]{10s_m.jpg}
     \caption{增压过程为$10~s$的压力变化局部放大图}
-    \label{figure8}
+    \label{figure9}
     \end{figure}    
 
 \section{问题二的求解}
 \subsection{柱塞运动方程}
     将附件1中凸轮极角与对应的极径输入MATLAB中，拟合曲线即可得到凸轮的外形
-    (图\ref{figure9})及其极径与角度的关系（图\ref{figure10})。{\color{red}图}
+    (图\ref{figure10})及其极径与角度的关系（图\ref{figure11})。
     \begin{figure}[!h]
         \centering
-        \includegraphics[width=.6\textwidth]{1949-2018_province_occurence.png}
+        \includegraphics[width=.3\textwidth]{wheel.jpg}
         \caption{凸轮边缘轮廓}
-        \label{figure9}
-    \end{figure}
-    \begin{figure}[!h]
-        \centering
-        \includegraphics[width=.6\textwidth]{1949-2018_province_occurence.png}
-        \caption{凸轮极径与角度的关系曲线}
         \label{figure10}
     \end{figure}
-    \\
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=.9\textwidth]{wheel_equ.jpg}
+        \caption{凸轮极径与角度的关系曲线}
+        \label{figure11}
+    \end{figure}
+    
     拟合后曲线的方程为$L(\theta)={\color{red}equation}$，
     其中$\theta$为旋转角度，$L$为角度$\theta$所对应的的极径。
-    对$L(\theta)$进行{\color{red}什么检验，不会写。}
-    经检验，曲线对离散点的拟合度较好，
-    因此建立柱塞上升距离与角度的函数关系
+    曲线$L(\theta)$的拟合优度$R^2={\color{red}X}$，说明拟合度较好，
+    因此该曲线的方程可用来表示柱塞上升距离与角度的关系，即
     \begin{equation}
         d=L(\theta)-L_{min}={\color{red}equation}
     \label{equ16}
@@ -437,112 +436,244 @@
     旋转时间，则$\theta=\omega t_r$。代入公式(\ref{equ16})可得到
     柱塞上升距离与旋转时间$t_r$的关系式
     \begin{equation}
-        d(t_r)=L(t_r)-L_{min}={\color{red}equation}
-    \label{equ16}
+        d(t)=d(t_r)=L(t_r)-L_{min}={\color{red}equation}
+    \label{equ17}
     \end{equation}
     记柱塞运动速度为$u$，则
     \begin{equation}
-        u(t_r)=d'(t_r)={\color{red}equation}
-    \label{equ17}
-    \end{equation}   
+        u(t)=d'(t)={\color{red}equation}
+    \label{equ18}
+    \end{equation}  
+   
+    已知柱塞内直径为$5mm$，柱塞运动到上止点腔内残余容积为$20mm^3$，运动到
+    下止点压力为$P_{\text{初}}=$0.5MPa的低压燃油充满柱塞腔。上下止点之间的距离
+    $H=L_{max}-L_{min}=4.826mm$，柱塞腔横截面积
+    $S=\pi(d_{\text{柱塞腔}}/2)^2=6.25\pi$，则柱塞腔最大容积
+    $V_{max}=20+HS=114.719mm^3$，则腔内体积随时间变化的关系式为
+    \begin{equation}
+        V(t)=V_{max}-S \cdot d(t)
+    \label{equ18.1}
+    \end{equation}
+    
 
-\subsection{高压油泵中燃油的压强}
-    {\color{red}ART（代数迭代法）}
-    考虑到柱塞运动时柱塞腔内体积变化
+\subsection{高压油泵中燃油的压力}
+    流体的可压缩性指温度一定时流体的体积或密度随压力而改变的性质。
+    考虑到柱塞腔内燃油的可压缩性，柱塞向上运动时腔内燃油的压力随着体积的减小
+    而不断增大。用压缩系数$\kappa(m^2/N)$表示燃油的可压缩性，设温度一定时，
+    燃油的原体积$V_0$，压力$P_0$，压缩后体积$V$，压力$P$，
+    压力增量$dP$，体积减小量$dV$，则
+    \begin{equation}
+        \kappa = -\frac{dV/V_0}{dP}=-\frac{1}{V_0}\frac{dV}{dP}
+    \label{equ19}
+    \end{equation}
+    压缩系数$\kappa$的倒数为燃油的弹性模量$E$，即
+    \begin{equation}
+        E=\frac{1}{\kappa}=-V_0\frac{dP}{dV}
+    \label{equ20}
+    \end{equation}
+    
+    附件3给出了燃油弹性模量与压力的关系。对题中所给数据进行线性拟合，得到
+    $E$关于$P$的一次函数
+    \begin{equation}
+        E=8.8623P+1379.2
+    \label{equ21}
+    \end{equation}
+    拟合优度$R^2={\color{red}X}$表示拟合程度较高。
+    令$k=8.8623$，$b=1379.2$，则$E=kP+b$。与公式(\ref{equ20})联立得
+    \begin{equation}
+        kP+b=-V_0\frac{dP}{dV}
+    \label{equ22}
+    \end{equation}
+    即
+    \begin{equation}
+        -\frac{1}{V_0}dV=\frac{1}{kP+b}dP
+    \label{equ23}
+    \end{equation}
+    对等式两边求积分可得
+    \begin{equation}
+        \int_{V_0}^V-\frac{1}{V_0}dV=\int_{P_0}^P\frac{1}{kP+b}dP
+    \label{equ24}
+    \end{equation}
+    即
+    \begin{equation}
+        -\frac{1}{V_0}(V-V_0)=\frac{1}{k}ln(kP+b)-\frac{1}{k}ln(kP_0+b)
+    \label{equ25}
+    \end{equation}
+    经整理可得压缩后燃油的压力
+    \begin{equation}
+        P=\frac{(kP_0+b)e^{-\frac{k}{V_0}(V-V_0)}-b}{k}
+    \label{equ26}
+    \end{equation}
+    
+    温度一定时流体膨胀为压缩的逆过程，设燃油的原体积$V_0$，压力$P_0$，
+    膨胀后体积$V$，压力$P$。代入公式(\ref{equ26})中整理得到膨胀后燃油的压力
+    \begin{equation}
+        P=\frac{(kP_0+b)e^{-\frac{k}{V}(V-V_0)}-b}{k}
+    \label{equ27}
+    \end{equation}
+   
+    记柱塞腔内压力为$P_{\text{腔}}$，高压油管内压力为$P_{\text{管}}$。
+    当柱塞向上运动且$P_{\text{腔}} \leq P_{\text{管}}$时，柱塞腔与高压油管
+    连接的单向阀未开启，腔内燃油总量不变。
+    将$P_{\text{腔}}$、$P_{\text{初}}$、$V_{max}$和式(\ref{equ18.1})
+    代入式(\ref{equ26})，得到该情况下柱塞腔内压力随时间变化的函数
+    \begin{equation}
+        P_{\text{腔}}=\frac{(kP_{\text{初}}+b)\cdot e^{-\frac{k}{V_{max}}[V_{max}-S \cdot d(t_r)-V_{max}]}-b}{k}
+    \label{equ29}
+    \end{equation}
+    当柱塞向上运动且$P_{\text{腔}} > P_{\text{管}}$时，柱塞腔与高压油管
+    连接的单向阀开启，腔内燃油进入高压油管。因$t$时刻进入油管的燃油量$q$为压力
+    $P_{\text{腔}}$和$P_{\text{管}}$的函数，压力又同时受到经过单向阀的
+    燃油流量的影响，故联立三者的方程难以直接求出其关于时间$t$的函数。
+    对于上述问题，考虑使用迭代法进行重建，即求解时将连续的时间分割为多个时间间隔，
+    离散化压力、排出量与时间的函数关系图像。具体计算步骤如下：
 
-压缩系数
-$$
-    \kappa = -\frac{dV/V_0}{dP}=-\frac{1}{V_0}\frac{dV}{dP}
-$$
-压缩系数的倒数为体积弾性系数$E$
-$$
-    E=\frac{1}{\kappa}=-V_0\frac{dP}{dV}
-$$
-$$
-    E=kP+b
-$$
-$$
-    kP+b=-V_0\frac{dP}{dV}
-$$
-即
-$$
--\frac{1}{V_0}dV=\frac{1}{kP+b}dP
-$$
-两边求积分可得
-$$
-\int_{V_0}^V-\frac{1}{V_0}dV=\int_{P_0}^P\frac{1}{kP+b}dP
-$$
-即
-$$
-    -\frac{1}{V_0}(V-V_0)=\frac{1}{k}ln(kP+b)-\frac{1}{k}ln(kP_0+b)
-$$
-$$
-    kP+b=(kP_0+b)e^{-\frac{k}{V_0}(V-V_0)}
-$$
-所以
-$$
-    P=\frac{(k\rho_0+b)e^{-\frac{k}{V_0}(V-V_0)}-b}{k}
-$$
-另一种化简方式
-$$
-    V=V_0\{1-\frac{1}{k}[ln(kP+b)-ln(kP_0+b)\}
-$$
-腔内体积
-$$
-    V=V_0-S \cdot d(t)
-$$
-$$
-    S=\pi r_{\text{腔}}^2
-$$
-流量系数
-$$
-    Q=CA\sqrt{\frac{2 \triangle P}{\rho}}
-$$
-$$
-    \triangle P=P-P_{\text{油管}}
-$$
-密度表达式
-$$
-    \frac{dP}{d\rho}=\frac{E}{\rho}
-$$
-代入$E=kP+b$，整理后求定积分得
-$$
-    \int_{P_0}^P\frac{dP}{kP+b}=\int_{\rho_0}^\rho\frac{d\rho}{\rho}
-$$
-即
-$$
-    ln\rho-ln\rho_0=\frac{1}{k}[ln(kP+b)-ln(kP_0+b)]
-$$
-经整理得
-$$
-    \rho=\rho_0\cdot(\frac{kP+b}{kP_0+b})^{\frac{1}{k}}
-$$
+    \textbf{Step1}:离散化变量。将时间段$[0,t]$分割为若干个长度为
+    $\triangle t=0.01~ms$的小区间，第$i$个区间内进入油管的燃油体积为
+    $\triangle V_{in}^i$
+    $(i=1,2,\cdots,\lfloor{\frac{t}{0.01}}\rfloor+1)$。记区间$i$内
+    柱塞腔和高压油管的压力分别为$P_{\text{腔}}^i$和$P_{\text{管}}^i$，
+    单位时间燃油流量为$q_i$，假设其值仅在一个区间的起始与终止时课进行更新，
+    在区间内保持不变。
+    
+    \textbf{Step2}:更新柱塞腔内压力与燃油密度。令$P_0=100$MPa，
+    $\rho_0=0.85mg/mm^3$。记区间$i$内柱塞腔的体积恒为
+    $V_{\text{腔}}^i$，液体密度为$\rho_i$，则$V_{\text{腔}}^i=V_{max}-d(t_i)$。
+    代入式(\ref{equ26})中得
+    \begin{equation}
+        P_{\text{腔}}^i=\frac{(kP_{\text{腔}}^{i-1}+b)\cdot 
+        e^{-\frac{k}{V_0}[d(t_{i-1})-d(t_i)]}-b}{k}
+    \label{equ30}
+    \end{equation}
+
+    柱塞腔内压力不断变化导致腔内燃油密度随之变化。将式（\ref{equ22}）代入
+    式（\ref{equ11}）中可得
+    \begin{equation}
+        \frac{dP}{d\rho}=\frac{kP+b}{\rho}
+    \label{equ31}
+    \end{equation}
+    整理后求定积分得
+    \begin{equation}
+        \int_{P_0}^{P_{\text{腔}}^i}\frac{dP}{kP+b}=\int_{\rho_0}^{\rho_i}\frac{d\rho}{\rho}
+    \label{equ32}
+    \end{equation}
+    即
+    \begin{equation}
+        ln\rho_i-ln\rho_0=\frac{1}{k}[ln(kP_{\text{腔}}^i+b)-ln(kP_0+b)]
+    \label{equ33}
+    \end{equation} 
+    移项并整理得到密度随压力实时变化的方程
+    \begin{equation}
+        \rho_i=\rho_0\cdot(\frac{kP_{\text{腔}}^i+b}{kP_0+b})^{\frac{1}{k}}
+    \label{rho}
+    \end{equation} 
+   
+
+    \textbf{Step3}：计算进入高压油管的燃油量。用第$i$个区间起始点的流量
+    $q_i$近似代替区间内连续变化的$q$，则$\triangle V_{in}^i=q_i\triangle t$。
+    由式(\ref{equ4})得
+    \begin{equation}
+        q_i=CA\sqrt{\frac{2(P_{\text{腔}}^i-P_{\text{管}}^i)}{\rho_i}}
+    \label{equ35}
+    \end{equation} 
+    则进入高压油管的全部燃油体积为
+    \begin{equation}
+        V_{\text{进入}}= \sum\limits_{i=1}^n q_i\triangle t
+        \quad , \quad \quad n={\lfloor{\frac{t}{0.01}}\rfloor+1}
+    \label{equ36}
+    \end{equation} 
+
+    
+    \textbf{Step4}：修正柱塞腔内压力。在区间$i$内，燃油因部分流入高压油管而导致
+    体积减少，而柱塞腔的体积并未改变，因此需要修正腔内压力。假设腔内剩余燃油的压力
+    保持$P_{\text{腔}}^i$不变，则其体积
+    $V_1=V_{\text{腔}}^i-\triangle V_{in}^i$。记$P_1=P_{\text{腔}}^i$，
+    此时柱塞腔内燃油实际压力即
+    压力为$P_1$，体积为$V_1$的燃油膨胀至体积为$V_{\text{腔}}^i$
+    时的压力。代入式(\ref{equ27})中得到修正后的压力
+    \begin{equation}
+        P_{\text{腔}}^i=\frac{(kP_1+b)e^{-\frac{k}{V_{\text{腔}}^i}(V_{\text{腔}}^i-V_1)}-b}{k}
+    \label{equ37}
+    \end{equation}
+
+    \textbf{Step5}：更新高压油管内的压力。由式(\ref{equ6})得
+    \begin{equation}
+        P_{\text{腔}}^i=\frac{P_0V_0}{V_0-V_{\text{进入}}+V_{\text{喷出}}}
+    \label{equ38}
+    \end{equation}
+    代入柱塞腔的进油量$V_{\text{进入}}$与喷油嘴的出油量$V_{\text{喷出}}$即可
+    求得区间$i$上高压油管内的压强$P_{\text{管}}^i$。柱塞向下运动时各变量的求解与
+    上述求解过程相同，在此不重复阐述。
 
 \subsection{喷油嘴的喷油速率}
-$$
-    Q_2=CA\sqrt{\frac{2 \triangle P}{\rho}}
-$$
-\begin{eqnarray}
-    A=
+    喷油嘴的结构如图\ref{figure12}所示。
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=.3\textwidth]{Pin.png}
+        \caption{喷油嘴示意图}
+        \label{figure12}
+    \end{figure}
+    图中$\alpha=9^\circ$，喷孔直径
+    $d_0=1.4mm$，针阀下底面所处圆锥的截平面半径为$r$，上升高度$h$见附件2。
+    则喷孔半径$r_0=d_0/2=0.7mm$，$r=h\cdot\tan 9^\circ + r_0$。
+    单位时间内经喷嘴喷出的燃油量
+    \begin{equation}
+    Q_{\text{喷出}}=CB\sqrt{\frac{2 \triangle P}{\rho}}
+    \label{equ49}
+    \end{equation}
+    其中$B$为油嘴最大喷射面积$(mm^2)$，$\triangle P$为油嘴两边压力差(MPa),
+    $\rho$为高压侧燃油密度$(mg/mm^3)$。油嘴最大喷射面积的取值需要比较针阀
+    下底面与圆锥之间圆环的面积$S_0$与喷孔的面积$S_1$，即
+    \begin{eqnarray}
+    B=
     \begin{cases}
-        S \quad \quad & t<t_0 \\
-        S_1    & t \geq t_0
+        S_0 \quad \quad & S_0 \leq S_1 \\
+        S_1    & S_0 > S_1
     \end{cases}
-\end{eqnarray}
-$$
-    S=\pi(r^2-r_0^2)
-$$
-$$
-    r=h\cdot\tan 9^\circ + r_0
-$$
-$$
-    S_1=(0.7)^2\pi
-$$
-
-
+    \quad \quad
+    \text{且}
+    \quad \quad
+    \begin{cases}
+        S_0=\pi(r^2-r_0^2) \\
+        S_1=\pi r_0^2
+    \end{cases}
+    \label{equ50}
+    \end{eqnarray}
+    假设喷油嘴低压侧压力为标准大气压$P_{\text{标准}}=0.1$MPa，油管内压力为$P$，
+    则$\triangle P=P-P_0$。用{\color{red}划分时间间隔的方法求解各变量，}
+    将区间$i$上油管压力$P_{\text{管}}^i$代入式(\ref{rho})中求得此时油管中的
+    燃油密度$\rho_i$，再
+    由式(\ref{equ49})得到喷油嘴的流量$Q_{\text{喷出}}^i$。则
+    \begin{equation}
+        V_{\text{喷出}}= \sum\limits_{i=1}^n Q_{\text{喷出}}^i\triangle t
+        \quad , \quad \quad n={\lfloor{\frac{t}{0.01}}\rfloor+1}
+    \label{equ51}
+    \end{equation} 
 
 \subsection{凸轮角速度与高压油管内压力的关系}
-
+    为使得高压油管内的压力尽可能稳定在$100~MPa$左右，令
+    \begin{equation}
+        SSR=\sum\limits_{i=1}^n (P_{\text{管}}^i-100)^2
+        \quad , \quad \quad n={\lfloor{\frac{t}{0.01}}\rfloor+1}
+    \label{equ52}
+    \end{equation}
+    其中，$t=10s$。
+    故凸轮的最优转速为各时刻压力与$100~MPa$的残差平方和
+    $SSR$最小时。由此建立单目标优化模型，目标函数为
+    \begin{equation}
+       min \quad SSR
+    \label{equ53}
+    \end{equation}
+    用模拟退火算法求解，得到最佳角速度$\omega=26.569rad/m$，目标函数值$SSR=272.99$。
+    油管内压力随时间变化如图\ref{figure13}所示，从图中可以看出，管内压力在
+    100MPa上下小幅度波动，且最大偏移量不超过0.2MPa，说明凸轮在该角速度下可以
+    保证油管内稳定在100MPa左右。
+    \begin{figure}[!h]
+    \centering
+    \includegraphics[width=.95\textwidth]{q2_10s.jpg}
+    \caption{油管内压力随时间变化示意图}
+    \label{figure13}
+    \end{figure}
 
 \section{问题三的求解}
 
