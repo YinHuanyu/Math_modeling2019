@@ -254,7 +254,7 @@
             V_{\text{进入}}=\int_0^t q dt \approx
              \sum\limits_{i=1}^n \triangle q_i \\
             %=\sum\limits_{i=1}^n q_i\triangle t \\
-            V_{\text{喷出}}=\int_0^t e dt \approx
+            V_{\text{喷出}}=\int_0^t e dt =
              \sum\limits_{i=1}^n \triangle e_i \\
             %=\sum\limits_{i=1}^n e_i\triangle t
         \end{cases}
@@ -290,10 +290,10 @@
     $n=\lfloor{\frac{t}{\triangle t}}\rfloor$，$t=1000~ms$。
     故单向阀每次开启时长的最优设置方案为各时刻压力与$100~MPa$的残差平方和
     $SSR$最小时。由此建立单目标优化模型，目标函数为
-    \begin{equation}
+    \begin{equation*}
        min \quad SSR
     \label{equ13}
-    \end{equation}
+    \end{equation*}
 
     为求解上述问题的近似全局最优解，采用模拟退火算法，具体步骤如下：
 
@@ -309,7 +309,7 @@
     \textbf{Step4}:若$\triangle SSR<0$，则将$t_{\text{开}}'$作为新的当前解，
     否则以概率$exp(-\triangle SSR/T_1)$接受$t_{\text{开}}'$作为当前解。
 
-    \textbf{Step5}:当$T_1 \leq ^n$时，退火算法结束，当前解即近似全局最优解；
+    \textbf{Step5}:当$T_1 \leq n$时，退火算法结束，当前解即近似全局最优解；
     否则返回Step2。
 
 \subsection{油管压力稳定在$100MPa$的控制方案}
@@ -324,7 +324,7 @@
     \end{figure}
 
     由图\ref{figure3}可以看出$1s$内高压油管的压力在$100~MPa$上下小幅度波动，
-    且100000个区间的平均偏离量仅为$1.7327e-3$，说明压力较为稳定。
+    且各点压力平均偏离量仅为$1.7327e-3$，说明压力较为稳定。
 
 \subsection{油管压力增加到在$150MP$a的调整方法}
     针对题目中要求的经过$2~s$调整后管内压力增加到$150~MPa$并保持稳定，
@@ -332,21 +332,22 @@
     过程，显然$t_{\text{开}}$越大，压力增加得越快。$2~s$时刻压力达到$150~MPa$
     ，即$|P_{2s}-150~MPa|$最小。令$\triangle P=|P_{2s}-150~MPa|$，则调整单目标
     优化模型的目标函数为
-    \begin{equation}
+    \begin{equation*}
         min \quad \triangle P
      \label{equ14}
-     \end{equation}
+     \end{equation*}
     通过模拟退火算法求得近似全局最优解为$t_{\text{开}}=15.046~ms$，
     代入公式(\ref{equ11})中经迭代求出$P_{2s}=149.3~MPa$。增压阶段结束后进入
     稳压阶段，压力尽可能维持在$150~MPa$，即$t$时间内各时刻压力与$150~MPa$
     的残差平方和$SSR$。考虑将$20~s$内的最优解作为最佳开启时间，调整优化模型
     目标函数为
-    \begin{equation}
+    \begin{equation*}
         min \quad \sum\limits_{i=2000}^{20000} (P_i-150)^2
     \label{equ14}
-    \end{equation}
+    \end{equation*}
     经计算，稳压阶段单向阀每次开启的时长为$t_{\text{开}}=0.753$，求得的目标函数值
-    为$9478.16$。作$20~s$内管内压力随时间变化的图像，由局部放大图可知，管内压力
+    为$9478.16$，各点压力平均偏离量仅为${\color{red}X}$。作$20~s$内管内压力
+    随时间变化的图像，由局部放大图可知，管内压力
     增大到$150~MPa$后，$t_{\text{开}}$经调整可以使得压力在$150~MPa$附近小幅度波动，
     且波动量不超过$0.2~MPa$。因此可以得出单向阀开启时长的调整方案较为合理的结论。
     \begin{figure}[!h]
@@ -430,20 +431,22 @@
     \label{equ16}
     \end{equation}
     其中，$L_{min}$为柱塞运动到下止点时凸轮旋转角度所对应的的极径，
-    $d$为柱塞相对于下止点的位移。设$\omega$为凸轮旋转角速度，
-    $T=\frac{2\pi}{\omega}$为旋转周期，
-    $t_r=t-\lfloor{\frac{t}{T}*T}\rfloor$为凸轮在某个旋转周期内的
-    旋转时间，则$\theta=\omega t_r$。代入公式(\ref{equ16})可得到
+    $d$为柱塞相对于下止点的位移。设$\omega$为凸轮旋转角速度，则旋转周期
+    \begin{equation}
+        T=\frac{2\pi}{\omega}
+    \label{equ16.1}
+    \end{equation}
+    凸轮在某个旋转周期内的旋转时间
+    \begin{equation}
+        t_r=t-\lfloor{\frac{t}{T}*T}\rfloor
+    \label{equ17}
+    \end{equation}
+    则$\theta=\omega t_r$。代入公式(\ref{equ16})可得到
     柱塞上升距离与旋转时间$t_r$的关系式
     \begin{equation}
         d(t)=d(t_r)=L(t_r)-L_{min}={\color{red}equation}
-    \label{equ17}
-    \end{equation}
-    记柱塞运动速度为$u$，则
-    \begin{equation}
-        u(t)=d'(t)={\color{red}equation}
     \label{equ18}
-    \end{equation}  
+    \end{equation}
    
     已知柱塞内直径为$5mm$，柱塞运动到上止点腔内残余容积为$20mm^3$，运动到
     下止点压力为$P_{\text{初}}=$0.5MPa的低压燃油充满柱塞腔。上下止点之间的距离
@@ -598,7 +601,7 @@
 
     \textbf{Step5}：更新高压油管内的压力。由式(\ref{equ6})得
     \begin{equation}
-        P_{\text{腔}}^i=\frac{P_0V_0}{V_0-V_{\text{进入}}+V_{\text{喷出}}}
+        P_{\text{管}}^i=\frac{P_0V_0}{V_0-V_{\text{进入}}+V_{\text{喷出}}}
     \label{equ38}
     \end{equation}
     代入柱塞腔的进油量$V_{\text{进入}}$与喷油嘴的出油量$V_{\text{喷出}}$即可
@@ -618,7 +621,7 @@
     则喷孔半径$r_0=d_0/2=0.7mm$，$r=h\cdot\tan 9^\circ + r_0$。
     单位时间内经喷嘴喷出的燃油量
     \begin{equation}
-    Q_{\text{喷出}}=CB\sqrt{\frac{2 \triangle P}{\rho}}
+    Q_{out}=CB\sqrt{\frac{2 \triangle P}{\rho}}
     \label{equ49}
     \end{equation}
     其中$B$为油嘴最大喷射面积$(mm^2)$，$\triangle P$为油嘴两边压力差(MPa),
@@ -639,13 +642,20 @@
     \end{cases}
     \label{equ50}
     \end{eqnarray}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=.7\textwidth]{q210s.jpg}
+        \caption{{\color{red}最大喷射面积随时间变化的关系}}
+        \label{figure15}
+    \end{figure}
+    最大喷射面积随时间变化的关系如图{\ref{figure15}}所示。
     假设喷油嘴低压侧压力为标准大气压$P_{\text{标准}}=0.1$MPa，油管内压力为$P$，
     则$\triangle P=P-P_0$。用{\color{red}划分时间间隔的方法求解各变量，}
     将区间$i$上油管压力$P_{\text{管}}^i$代入式(\ref{rho})中求得此时油管中的
     燃油密度$\rho_i$，再
-    由式(\ref{equ49})得到喷油嘴的流量$Q_{\text{喷出}}^i$。则
+    由式(\ref{equ49})得到喷油嘴的流量$Q_{out}^i$。则
     \begin{equation}
-        V_{\text{喷出}}= \sum\limits_{i=1}^n Q_{\text{喷出}}^i\triangle t
+        V_{\text{喷出}}= \sum\limits_{i=1}^n Q_{out}^i\triangle t
         \quad , \quad \quad n={\lfloor{\frac{t}{0.01}}\rfloor+1}
     \label{equ51}
     \end{equation} 
@@ -660,28 +670,122 @@
     其中，$t=10s$。
     故凸轮的最优转速为各时刻压力与$100~MPa$的残差平方和
     $SSR$最小时。由此建立单目标优化模型，目标函数为
-    \begin{equation}
+    \begin{equation*}
        min \quad SSR
     \label{equ53}
+    \end{equation*}
+    联立公式(\ref{equ16.1},\ref{equ17},\ref{equ18},\ref{equ18.1},\ref{equ21},\ref{equ30},
+    \ref{rho},\ref{equ35},\ref{equ36},\ref{equ38},\ref{equ49},\ref{equ51})，
+    得
+    \begin{equation}
+    \begin{cases}
+        T=\frac{2\pi}{\omega}\\
+        t_r=t-\lfloor{\frac{t}{T}*T}\rfloor \\
+        d(t)=d(t_r)=L(t_r)-L_{min}={\color{red}equation} \\
+        V(t)=V_{max}-S \cdot d(t) \\
+        E=8.8623P+1379.2 \\
+        P_{\text{腔}}^i=\frac{(kP_{\text{腔}}^{i-1}+b)\cdot 
+        e^{-\frac{k}{V_0}[d(t_{i-1})-d(t_i)]}-b}{k}\\
+        \rho_i=\rho_0\cdot(\frac{kP_{\text{腔}}^i+b}{kP_0+b})^{\frac{1}{k}} \\
+        q_i=CA\sqrt{\frac{2(P_{\text{腔}}^i-P_{\text{管}}^i)}{\rho_i}} \\
+        V_{\text{进入}}= \sum\limits_{i=1}^n q_i\triangle t\\
+        Q_{out}=CB\sqrt{\frac{2 \triangle P}{\rho}} \\
+        V_{\text{喷出}}= \sum\limits_{i=1}^n Q_{out}^i\triangle t\\
+        P_{\text{管}}^i=\frac{P_0V_0}{V_0-V_{\text{进入}}+V_{\text{喷出}}} \\
+    \end{cases}
+    \label{equ53.1}
     \end{equation}
-    用模拟退火算法求解，得到最佳角速度$\omega=26.569rad/m$，目标函数值$SSR=272.99$。
+    用模拟退火算法求解，得到最佳角速度$\omega=26.569rad/m$，目标函数值
+    $SSR=272.99$,各点压力平均偏离量仅为${\color{red}X}$。
     油管内压力随时间变化如图\ref{figure13}所示，从图中可以看出，管内压力在
     100MPa上下小幅度波动，且最大偏移量不超过0.2MPa，说明凸轮在该角速度下可以
     保证油管内稳定在100MPa左右。
-    \begin{figure}[!h]
+    \begin{figure}[h]
     \centering
-    \includegraphics[width=.95\textwidth]{q2_10s.jpg}
+    \includegraphics[width=.8\textwidth]{q210s.jpg}
     \caption{油管内压力随时间变化示意图}
     \label{figure13}
     \end{figure}
 
 \section{问题三的求解}
+\subsection{喷油和供油策略的调整}
+    附件2中给出了一个喷油周期内针阀升程与时间的关系，对所给数据进行拟合，得到
+    针阀抬升高度关于时间的方程
+    \begin{equation}
+        h_1=h(t)={\color{red}equtaion}
+    \label{equ54}
+    \end{equation}
+    拟合优度$R^2={\color{red}X}$表示拟合度较高,
+    h(t)的函数图像如图{\ref{figure14}}所示。
+    \begin{figure}[!h]
+        \centering
+        \includegraphics[width=.95\textwidth]{q210s.jpg}
+        \caption{$h(t)$的函数图像}
+        \label{figure14}
+    \end{figure}
+    在问题2的基础上再增加一个喷油规律相同的喷油嘴，设两者开启时间相差
+    $a~ms(0 \leq a < 100ms)$，则后工作的喷油嘴针阀抬升高度关于时间的方程为
+    \begin{equation}
+        h_2=h(t-a)={\color{red}equtaion}
+    \label{equ55}
+    \end{equation}
 
-\subsection{模型的建立与求解}
+    设$t$时刻流出喷油嘴$B$和$C$的流量分别为$Q_B$和$Q_C$，最大喷射面积分别为
+    $B_1$和$B_2$，则
+    \begin{equation}
+        \begin{cases}
+            Q_B=CB_1\sqrt{\frac{2 \triangle P}{\rho}} \\
+            Q_B=CB_2\sqrt{\frac{2 \triangle P}{\rho}}
+        \end{cases}
+    \label{equ56}
+    \end{equation}
+    总喷射面积$B=B_1+B_2$，两个油嘴的总流量
+    \begin{equation}
+        Q_{out}=Q_B+Q_C=C(B_1+B_2)\sqrt{\frac{2 \triangle P}{\rho}}
+        =CB\sqrt{\frac{2 \triangle P}{\rho}}
+    \label{equ57}
+    \end{equation}
+    $Q_{out}$与时间$t$的关系如图\ref{figure16}所示。
+    \begin{figure}[!h]
+        \centering
+        \includegraphics[width=.95\textwidth]{q210s.jpg}
+        \caption{总流量与时间的关系}
+        \label{figure16}
+    \end{figure}
+
+    凸轮转速与高压油管压力的关系由式(\ref{equ53.1})求得。单目标优化模型的
+    目标函数仍为
+    \begin{equation*}
+        min \quad SSR
+    \end{equation*}
+    用模拟退火算法求解，其自变量为$(\omega,a)$。经计算，
+    喷油和供油策略的最佳控制方案为凸轮转速
+    $\omega={\color{red}X}rad/s$，喷油嘴开启时间间隔$a={\color{red}X}$。
+    求得的目标函数$SSR={\color{red}X}$，高压油管内压力变化如图
+    {\ref{figure17}}所示。各点压力的平均偏移量为${\color{red}X}$，由图中
+    可以看出，管内压力在100MPa上下小幅度波动，且1分钟内压力的最大偏移量
+    不超过0.5MPa，说明该调整方案可以保证油罐内压力稳定在100MPa左右。
+    \begin{figure}[!h]
+        \centering
+        \includegraphics[width=.95\textwidth]{q210s.jpg}
+        \caption{高压油管内压力变化示意图}
+        \label{figure17}
+    \end{figure}
+
+\subsection{减压阀控制方案}
+    如图\ref{figure18}所示，在$D$处安装一个出口直径$d_D=1.4mm$的单向减压阀，
+    阀门打开后高压油管内的燃油可在压力作用下回流到外部低压油路中，
+    使得油罐内压力减小。
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=.8\textwidth]{sample.png}
+        \caption{具有减压阀和两个喷油嘴时高压油管示意图}
+        \label{figure18}
+    \end{figure}
+
+    设减压阀打开时流出高压油管的燃油流量为$Q_D$
 
 
-
-\section{灵敏度检验}
 
 \section{模型的评价}
 \subsection{模型的评价}

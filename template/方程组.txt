@@ -1,0 +1,25 @@
+17
+t_r=t-\lfloor{\frac{t}{T}*T}\rfloor
+18
+d(t)=d(t_r)=L(t_r)-L_{min}={\color{red}equation}
+18.1
+V(t)=V_{max}-S \cdot d(t)
+21
+E=8.8623P+1379.2
+30 
+P_{\text{腔}}^i=\frac{(kP_{\text{腔}}^{i-1}+b)\cdot 
+        e^{-\frac{k}{V_0}[d(t_{i-1})-d(t_i)]}-b}{k}
+rho
+\rho_i=\rho_0\cdot(\frac{kP_{\text{腔}}^i+b}{kP_0+b})^{\frac{1}{k}}
+35
+q_i=CA\sqrt{\frac{2(P_{\text{腔}}^i-P_{\text{管}}^i)}{\rho_i}}
+36
+V_{\text{进入}}= \sum\limits_{i=1}^n q_i\triangle t
+        \quad , \quad \quad n={\lfloor{\frac{t}{0.01}}\rfloor+1}
+38
+P_{\text{管}}^i=\frac{P_0V_0}{V_0-V_{\text{进入}}+V_{\text{喷出}}}
+   49
+Q_{B}=CB\sqrt{\frac{2 \triangle P}{\rho}}
+51
+ V_{\text{喷出}}= \sum\limits_{i=1}^n Q_{B}^i\triangle t
+        \quad , \quad \quad n={\lfloor{\frac{t}{0.01}}\rfloor+1}
